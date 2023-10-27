@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import lombok.Data;
 
 import java.sql.Time;
+import java.util.Date;
 
 @Data
 @Entity
@@ -15,7 +16,10 @@ public class Appointment {
 
     private int userId;
     private int doctorId;
-    private Time time;
+    private Date dateStart;
+    private Date dateEnd;
+    private int specialtyId;
+    private String reason;
 
     public Appointment() {}
 
@@ -23,12 +27,18 @@ public class Appointment {
             int id,
             int userId,
             int doctorId,
-            Time time
+            Date dateStart,
+            Date dateEnd,
+            int specialtyId,
+            String reason
     ) {
         this.id = id;
         this.userId = userId;
         this.doctorId = doctorId;
-        this.time = time;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.specialtyId = specialtyId;
+        this.reason = reason;
     }
 
 }
