@@ -1,0 +1,40 @@
+package com.soignemoi.soignemoiapi.data.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+@Entity
+public class Note {
+
+    @Id
+    private int id;
+
+    private int doctorId;
+    private int userId;
+    private String title;
+    private String content;
+    private Date date;
+
+    public Note() {}
+
+    public Note(
+            int id,
+            int doctorId,
+            int userId,
+            String title,
+            String content,
+            Date date
+    ) {
+        this.id = id;
+        this.doctorId = doctorId;
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+        this.date = date;
+    }
+
+}
