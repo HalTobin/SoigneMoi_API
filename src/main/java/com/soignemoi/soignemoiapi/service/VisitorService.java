@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class VisitorService {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger logger = LoggerFactory.getLogger(VisitorService.class);
 
     @Autowired
     private VisitorRepository visitorRepository;
