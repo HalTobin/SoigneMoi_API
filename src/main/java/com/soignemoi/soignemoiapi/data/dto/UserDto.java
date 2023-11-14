@@ -3,20 +3,19 @@ package com.soignemoi.soignemoiapi.data.dto;
 import lombok.Data;
 
 @Data
-public class VisitorDto {
+public class UserDto {
 
     private String name;
     private String surname;
     private String mail;
-    private String postCode;
+    private String role;
 
-    public VisitorDto() {}
+    public UserDto() {}
 
-    public VisitorDto(String name, String surname, String mail, String postCode) {
+    public UserDto(String name, String surname, String mail, String role) {
         this.name = name;
         this.surname = surname;
         this.mail = mail;
-        this.postCode = postCode;
+        this.role = role;
     }
-
 }

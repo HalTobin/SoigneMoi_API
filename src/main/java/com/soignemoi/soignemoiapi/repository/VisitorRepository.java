@@ -1,6 +1,7 @@
 package com.soignemoi.soignemoiapi.repository;
 
-import com.soignemoi.soignemoiapi.data.model.Visitor;
+import com.soignemoi.soignemoiapi.data.UserEntity;
+import com.soignemoi.soignemoiapi.data.models.Visitor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

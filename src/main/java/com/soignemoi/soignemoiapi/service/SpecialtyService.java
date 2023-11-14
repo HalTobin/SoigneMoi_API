@@ -1,6 +1,6 @@
 package com.soignemoi.soignemoiapi.service;
 
-import com.soignemoi.soignemoiapi.data.model.Specialty;
+import com.soignemoi.soignemoiapi.data.models.Specialty;
 import com.soignemoi.soignemoiapi.repository.SpecialtyRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +16,8 @@ public class SpecialtyService {
 
     @Autowired
     private SpecialtyRepository specialtyRepository;
+
+    public void create(Specialty newSpecialty) { specialtyRepository.save(newSpecialty); }
 
     public List<Specialty> loadSpecialties() { return specialtyRepository.findAll(); }
 

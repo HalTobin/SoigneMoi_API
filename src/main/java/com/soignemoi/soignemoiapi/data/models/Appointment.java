@@ -1,4 +1,4 @@
-package com.soignemoi.soignemoiapi.data.model;
+package com.soignemoi.soignemoiapi.data.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
