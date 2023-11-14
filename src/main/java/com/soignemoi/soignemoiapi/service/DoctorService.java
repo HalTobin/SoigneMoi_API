@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DoctorService {
 
@@ -18,6 +20,9 @@ public class DoctorService {
 
     public void create(Doctor newDoctor) { doctorRepository.save(newDoctor); }
 
+    public boolean doctorExist(String registrationNumber) {
+        return doctorRepository.existByRegistrationNumber(registrationNumber);
+    }
     public boolean doDoctorsExist() {
         return (!doctorRepository.findAll().isEmpty());
     }
@@ -27,4 +32,6 @@ public class DoctorService {
                 .findByRegistrationNumber(registrationNumber)
                 .orElseThrow(() -> new UsernameNotFoundException("No doctor found for this registration number."));
     }
+
+    public List<Doctor> getAllDoctors() { return doctorRepository.findAll(); }
 }
