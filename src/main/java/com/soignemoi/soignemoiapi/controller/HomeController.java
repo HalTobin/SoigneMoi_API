@@ -2,7 +2,7 @@ package com.soignemoi.soignemoiapi.controller;
 
 import com.soignemoi.soignemoiapi.data.dto.specialty.SpecialtiesDto;
 import com.soignemoi.soignemoiapi.data.dto.specialty.SpecialtyDto;
-import com.soignemoi.soignemoiapi.data.model.Specialty;
+import com.soignemoi.soignemoiapi.data.models.Specialty;
 import com.soignemoi.soignemoiapi.service.SpecialtyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

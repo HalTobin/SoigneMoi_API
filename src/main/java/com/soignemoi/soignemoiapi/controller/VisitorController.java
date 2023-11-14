@@ -1,8 +1,7 @@
 package com.soignemoi.soignemoiapi.controller;
 
 import com.soignemoi.soignemoiapi.data.dto.VisitorDto;
-import com.soignemoi.soignemoiapi.data.model.Visitor;
-import com.soignemoi.soignemoiapi.security.JwtGenerator;
+import com.soignemoi.soignemoiapi.data.models.Visitor;
 import com.soignemoi.soignemoiapi.service.VisitorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

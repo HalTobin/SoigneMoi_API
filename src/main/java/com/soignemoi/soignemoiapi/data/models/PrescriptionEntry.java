@@ -1,4 +1,4 @@
-package com.soignemoi.soignemoiapi.data.model;
+package com.soignemoi.soignemoiapi.data.models;
 
 import com.soignemoi.soignemoiapi.data.values.Frequency;
 import jakarta.persistence.Entity;

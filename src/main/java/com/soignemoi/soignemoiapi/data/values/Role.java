@@ -1,5 +1,8 @@
 package com.soignemoi.soignemoiapi.data.values;
 
+import lombok.Getter;
+
+@Getter
 public enum Role {
     VISITOR("Visitor"),
     DOCTOR("Doctor"),
@@ -12,7 +15,4 @@ public enum Role {
         this.roleName = roleName;
     }
 
-    public String getRoleName() {
-        return roleName;
-    }
 }

@@ -1,4 +1,4 @@
-package com.soignemoi.soignemoiapi.data.model;
+package com.soignemoi.soignemoiapi.data.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,24 +6,29 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Entity
-public class Specialty {
+public class Prescription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String title;
+    private Date start;
+    private Date end;
 
-    public Specialty() {}
+    public Prescription() {}
 
-    public Specialty(
+    public Prescription(
             int id,
-            String title
+            Date start,
+            Date end
     ) {
         this.id = id;
-        this.title = title;
+        this.start = start;
+        this.end = end;
     }
 
 }
