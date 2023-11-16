@@ -1,12 +1,14 @@
 package com.soignemoi.soignemoiapi.data.dto.doctor;
 
 import com.soignemoi.soignemoiapi.data.models.Doctor;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class DoctorsDto {
 
-    private List<Doctor> doctors;
+    private List<DoctorDto> doctors;
 
-    public DoctorsDto(List<Doctor> doctors) { this.doctors = doctors; }
+    public DoctorsDto(List<DoctorDto> doctors) { this.doctors = doctors; }
 }

@@ -1,5 +1,6 @@
 package com.soignemoi.soignemoiapi.controller;
 
+import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorDto;
 import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorsDto;
 import com.soignemoi.soignemoiapi.data.dto.doctor.NewDoctorDto;
 import com.soignemoi.soignemoiapi.data.dto.doctor.UpdateDoctorDto;
@@ -32,7 +33,18 @@ public class AdminController {
 
     @GetMapping("/get_doctors")
     public ResponseEntity<DoctorsDto> getDoctors(@AuthenticationPrincipal UserDetails userDetails) {
-        return new ResponseEntity<>(new DoctorsDto(doctorService.getAllDoctors()), HttpStatus.OK);
+        DoctorsDto doctorsDto = new DoctorsDto(
+                doctorService.getAllDoctors().stream().map(doctor ->
+                    new DoctorDto(
+                            doctor.getId(),
+                            doctor.getName(),
+                            doctor.getSurname(),
+                            doctor.getRegistrationNumber(),
+                            doctor.getSpecialty()
+                    )
+                ).toList()
+        );
+        return new ResponseEntity<>(doctorsDto, HttpStatus.OK);
     }
 
     @PostMapping("/update_doctor")

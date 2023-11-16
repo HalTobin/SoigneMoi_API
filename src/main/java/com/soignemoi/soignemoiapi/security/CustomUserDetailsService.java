@@ -21,7 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
-    // Mail is used as username
     @Override
     public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
         UserEntity user = userService.findByIdentifier(identifier);
