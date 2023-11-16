@@ -11,6 +11,5 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     Doctor findById(int id);
     Optional<Doctor> findByRegistrationNumber(String registrationNumber);
     List<Doctor> findAll();
-
-    boolean existByRegistrationNumber(String registrationNumber);
+    boolean existsDoctorByRegistrationNumber(String registrationNumber);
 }

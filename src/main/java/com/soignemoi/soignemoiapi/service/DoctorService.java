@@ -21,7 +21,7 @@ public class DoctorService {
     public void create(Doctor newDoctor) { doctorRepository.save(newDoctor); }
 
     public boolean doctorExist(String registrationNumber) {
-        return doctorRepository.existByRegistrationNumber(registrationNumber);
+        return doctorRepository.existsDoctorByRegistrationNumber(registrationNumber);
     }
     public boolean doDoctorsExist() {
         return (!doctorRepository.findAll().isEmpty());
