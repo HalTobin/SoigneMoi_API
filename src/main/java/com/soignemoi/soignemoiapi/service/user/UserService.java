@@ -26,7 +26,7 @@ public class UserService {
     @Autowired
     private DoctorUserEntityService doctorService;
 
-    public UserEntity findByMail(String identifier) throws UsernameNotFoundException {
+    public UserEntity findByIdentifier(String identifier) throws UsernameNotFoundException {
         // First look for visitors
         UserEntity user = findUserInService(identifier, visitorService, "No visitor found for that mail");
         // If no matching result, search for staffs

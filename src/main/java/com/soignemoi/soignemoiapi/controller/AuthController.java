@@ -43,7 +43,7 @@ public class AuthController {
                 .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getMail(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        UserEntity user = userService.findByMail(loginDto.getMail());
+        UserEntity user = userService.findByIdentifier(loginDto.getMail());
         return new ResponseEntity<>(new AuthResponseDto(token, user.getRole().getRoleName()), HttpStatus.OK);
     }
 

@@ -1,6 +1,8 @@
 package com.soignemoi.soignemoiapi.service;
 
+import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorDto;
 import com.soignemoi.soignemoiapi.data.models.Doctor;
+import com.soignemoi.soignemoiapi.error.ValueNotFoundException;
 import com.soignemoi.soignemoiapi.repository.DoctorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

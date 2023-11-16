@@ -4,6 +4,7 @@ import com.soignemoi.soignemoiapi.data.models.Doctor;
 import com.soignemoi.soignemoiapi.data.models.Specialty;
 import com.soignemoi.soignemoiapi.data.models.Staff;
 import com.soignemoi.soignemoiapi.data.values.StaffType;
+import com.soignemoi.soignemoiapi.error.ValueNotFoundException;
 import com.soignemoi.soignemoiapi.service.DoctorService;
 import com.soignemoi.soignemoiapi.service.SpecialtyService;
 import com.soignemoi.soignemoiapi.service.StaffService;
@@ -32,7 +33,7 @@ public class InitComponent implements InitializingBean {
     private DoctorService doctorService;
 
     @Override
-    public void afterPropertiesSet() {
+    public void afterPropertiesSet() throws ValueNotFoundException {
         // Generate a default admin
         if (!staffService.doesAdminExist()) {
             Staff newAdmin = new Staff();
@@ -61,12 +62,12 @@ public class InitComponent implements InitializingBean {
         // Generate default doctors
         if (!doctorService.doDoctorsExist()) {
             Doctor[] doctors = new Doctor[]{
-                    new Doctor("John", "Doe", 1, "REG123", passwordEncoder.encode("john.doe")),
-                    new Doctor("Alice", "Smith", 2, "REG456", passwordEncoder.encode("alice.smith")),
-                    new Doctor("Bob", "Johnson", 3, "REG789", passwordEncoder.encode("bob.johnson")),
-                    new Doctor("Eleanor", "Rigby", 4, "REG101", passwordEncoder.encode("eleanor.rigby")),
-                    new Doctor("Charlie", "Brown", 5, "REG112", passwordEncoder.encode("charlie.brown")),
-                    new Doctor("Mia", "Wallace", 6, "REG131", passwordEncoder.encode("mia.wallace"))
+                    new Doctor("John", "Doe", specialtyService.loadById(1), "REG123", passwordEncoder.encode("john.doe")),
+                    new Doctor("Alice", "Smith", specialtyService.loadById(2), "REG456", passwordEncoder.encode("alice.smith")),
+                    new Doctor("Bob", "Johnson", specialtyService.loadById(3), "REG789", passwordEncoder.encode("bob.johnson")),
+                    new Doctor("Eleanor", "Rigby", specialtyService.loadById(4), "REG101", passwordEncoder.encode("eleanor.rigby")),
+                    new Doctor("Charlie", "Brown", specialtyService.loadById(5), "REG112", passwordEncoder.encode("charlie.brown")),
+                    new Doctor("Mia", "Wallace", specialtyService.loadById(6), "REG131", passwordEncoder.encode("mia.wallace"))
             };
             for (Doctor doctor: doctors) {
                 doctorService.create(doctor);

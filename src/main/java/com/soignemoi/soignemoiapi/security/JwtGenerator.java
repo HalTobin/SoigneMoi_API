@@ -6,10 +6,13 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import static com.soignemoi.soignemoiapi.security.SecurityConstant.JWT_EXPIRATION;
 
@@ -20,16 +23,20 @@ public class JwtGenerator {
         String username = authentication.getName();
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + JWT_EXPIRATION);
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
         return Jwts.builder()
                 .setSubject(username)
+                .claim("authorities", authorities.stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList()))
                 .setIssuedAt(currentDate)
                 .setExpiration(expireDate)
                 .signWith(getKey())
                 .compact();
     }
 
-    public String getMailFromJwt(String token) {
+    public String getIdentifierFromJwt(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getKey())
                 .build()

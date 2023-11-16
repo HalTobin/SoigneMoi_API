@@ -21,14 +21,4 @@ public class NewDoctorDto {
         this.specialtyId = specialtyId;
         this.password = password;
     }
-
-    public Doctor getAsDoctor() {
-        Doctor doctor = new Doctor();
-        doctor.setName(name);
-        doctor.setSurname(surname);
-        doctor.setRegistrationNumber(registrationNumber);
-        doctor.setPassword(password);
-        doctor.setSpecialtyId(specialtyId);
-        return doctor;
-    }
 }
