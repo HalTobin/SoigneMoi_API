@@ -1,9 +1,8 @@
 package com.soignemoi.soignemoiapi.controller;
 
 import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorDto;
-import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorsDto;
+import com.soignemoi.soignemoiapi.data.dto.doctor.AdminPanelDto;
 import com.soignemoi.soignemoiapi.data.dto.doctor.NewDoctorDto;
-import com.soignemoi.soignemoiapi.data.dto.doctor.UpdateDoctorDto;
 import com.soignemoi.soignemoiapi.data.models.Doctor;
 import com.soignemoi.soignemoiapi.error.ValueNotFoundException;
 import com.soignemoi.soignemoiapi.service.DoctorService;
@@ -32,8 +31,8 @@ public class AdminController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/get_doctors")
-    public ResponseEntity<DoctorsDto> getDoctors(@AuthenticationPrincipal UserDetails userDetails) {
-        DoctorsDto doctorsDto = new DoctorsDto(
+    public ResponseEntity<AdminPanelDto> getDoctors(@AuthenticationPrincipal UserDetails userDetails) {
+        AdminPanelDto doctorsDto = new AdminPanelDto(
                 doctorService.getAllDoctors().stream().map(doctor ->
                     new DoctorDto(
                             doctor.getId(),
@@ -42,27 +41,16 @@ public class AdminController {
                             doctor.getRegistrationNumber(),
                             doctor.getSpecialty()
                     )
-                ).toList()
+                ).toList(),
+                specialtyService.loadSpecialties()
         );
         return new ResponseEntity<>(doctorsDto, HttpStatus.OK);
     }
 
-    @PostMapping("/update_doctor")
-    public ResponseEntity<String> update(@RequestBody UpdateDoctorDto updateDoctorDto) throws ValueNotFoundException {
-        Doctor updateDoctor = new Doctor(
-                updateDoctorDto.getId(),
-                updateDoctorDto.getName(),
-                updateDoctorDto.getSurname(),
-                specialtyService.loadById(updateDoctorDto.getSpecialtyId()),
-                updateDoctorDto.getRegistrationNumber(),
-                passwordEncoder.encode(updateDoctorDto.getPassword())
-        );
-        doctorService.create(updateDoctor);
-        return new ResponseEntity<>("Doctor updated", HttpStatus.OK);
-    }
-
     @PostMapping("/create_doctor")
-    public ResponseEntity<String> create(@RequestBody NewDoctorDto newDoctorDto) throws ValueNotFoundException {
+    public ResponseEntity<String> create(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody NewDoctorDto newDoctorDto) throws ValueNotFoundException {
         if (doctorService.doctorExist(newDoctorDto.getRegistrationNumber())) {
             return new ResponseEntity<>("This doctor already exists!", HttpStatus.BAD_REQUEST);
         }
