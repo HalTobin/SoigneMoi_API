@@ -30,23 +30,6 @@ public class AdminController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/get_doctors")
-    public ResponseEntity<AdminPanelDto> getDoctors(@AuthenticationPrincipal UserDetails userDetails) {
-        AdminPanelDto doctorsDto = new AdminPanelDto(
-                doctorService.getAllDoctors().stream().map(doctor ->
-                    new DoctorDto(
-                            doctor.getId(),
-                            doctor.getName(),
-                            doctor.getSurname(),
-                            doctor.getRegistrationNumber(),
-                            doctor.getSpecialty()
-                    )
-                ).toList(),
-                specialtyService.loadSpecialties()
-        );
-        return new ResponseEntity<>(doctorsDto, HttpStatus.OK);
-    }
-
     @PostMapping("/create_doctor")
     public ResponseEntity<String> create(
             @AuthenticationPrincipal UserDetails userDetails,
