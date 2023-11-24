@@ -1,5 +1,14 @@
 package com.soignemoi.soignemoiapi.error;
 
-public class AppointmentAlreadyTaken extends Exception {
-    public AppointmentAlreadyTaken(String errorMessage) { super(errorMessage); }
+import com.soignemoi.soignemoiapi.data.models.Appointment;
+
+public class AppointmentAlreadyTaken extends RuntimeException {
+
+    private final Appointment appointment;
+    public AppointmentAlreadyTaken(String errorMessage, Appointment appointment) {
+        super(errorMessage);
+        this.appointment = appointment;
+    }
+
+    public Appointment getAppointment() { return appointment; }
 }

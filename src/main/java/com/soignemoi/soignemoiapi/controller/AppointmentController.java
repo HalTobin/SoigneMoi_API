@@ -2,6 +2,7 @@ package com.soignemoi.soignemoiapi.controller;
 
 import com.soignemoi.soignemoiapi.data.dto.appointment.AvailableDateDto;
 import com.soignemoi.soignemoiapi.data.dto.appointment.BookAppointmentResponseDto;
+import com.soignemoi.soignemoiapi.data.dto.appointment.ExistingAppointmentDto;
 import com.soignemoi.soignemoiapi.data.dto.appointment.NewAppointmentDto;
 import com.soignemoi.soignemoiapi.data.models.Appointment;
 import com.soignemoi.soignemoiapi.data.models.Doctor;
@@ -86,8 +87,13 @@ public class AppointmentController {
                 return new ResponseEntity<>(new BookAppointmentResponseDto(-1, BookAppointmentResponseDto.BookingStatus.ERROR), HttpStatus.BAD_REQUEST);
             }
         } catch (AppointmentAlreadyTaken exception) {
+            ExistingAppointmentDto existingAppointmentDto = new ExistingAppointmentDto(
+                exception.getAppointment().getDateStart(),
+                exception.getAppointment().getDateEnd(),
+                exception.getAppointment().getReason()
+            );
             return new ResponseEntity<>(
-                    new BookAppointmentResponseDto(-1, BookAppointmentResponseDto.BookingStatus.NOT_AVAILABLE),
+                    new BookAppointmentResponseDto(existingAppointmentDto),
                     HttpStatus.BAD_REQUEST
             );
         }

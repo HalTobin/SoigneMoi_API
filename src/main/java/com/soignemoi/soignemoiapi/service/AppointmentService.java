@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -16,9 +17,14 @@ public class AppointmentService {
     AppointmentRepository appointmentRepository;
 
     public Appointment createAppointment(Appointment newAppointment) throws AppointmentAlreadyTaken {
-        boolean appointmentAvailable = !appointmentRepository.doesAppointmentExist(newAppointment.getDateStart(), newAppointment.getDateEnd(), newAppointment.getVisitor().getId());
-        if (appointmentAvailable) return appointmentRepository.save(newAppointment);
-        else throw new AppointmentAlreadyTaken("Visitor already has an appointment for these dates");
+        appointmentRepository.findAppointmentByDateAndVisitorId(newAppointment.getDateStart(), newAppointment.getDateEnd(), newAppointment.getVisitor().getId())
+            .ifPresent(appointment -> {
+                    throw new AppointmentAlreadyTaken(
+                            "Visitor already has an appointment for these dates",
+                            appointment
+                    );
+                });
+        return appointmentRepository.save(newAppointment);
     }
 
     public List<Appointment> getAllByDoctorId(int doctorId) { return appointmentRepository.findAllByDoctorId(doctorId); }
@@ -27,6 +33,11 @@ public class AppointmentService {
 
     public boolean doesAppointmentExist(Date startDate, Date endDate, int visitorId) {
         return appointmentRepository.doesAppointmentExist(startDate, endDate, visitorId);
+    }
+
+    public Appointment findAppointmentByDatesAndVisitorId(Date startDate, Date endDate, int visitorId) {
+        return appointmentRepository.findAppointmentByDateAndVisitorId(startDate, endDate, visitorId)
+                .orElse(null);
     }
 
 }

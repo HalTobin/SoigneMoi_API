@@ -1,5 +1,6 @@
 package com.soignemoi.soignemoiapi.data.dto.appointment;
 
+import com.soignemoi.soignemoiapi.data.models.Appointment;
 import lombok.Data;
 import lombok.Getter;
 
@@ -8,6 +9,7 @@ public class BookAppointmentResponseDto {
 
     private int id;
     private BookingStatus status;
+    private ExistingAppointmentDto existingAppointment;
 
     public BookAppointmentResponseDto(
         int id,
@@ -15,6 +17,12 @@ public class BookAppointmentResponseDto {
     ) {
         this.id = id;
         this.status = bookingStatus;
+    }
+
+    public BookAppointmentResponseDto(ExistingAppointmentDto existingAppointmentDto) {
+        this.id = -1;
+        this.status = BookingStatus.NOT_AVAILABLE;
+        this.existingAppointment = existingAppointmentDto;
     }
 
     @Getter
