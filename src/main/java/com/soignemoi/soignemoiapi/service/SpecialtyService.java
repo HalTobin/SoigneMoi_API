@@ -1,6 +1,7 @@
 package com.soignemoi.soignemoiapi.service;
 
 import com.soignemoi.soignemoiapi.data.models.Specialty;
+import com.soignemoi.soignemoiapi.error.ValueNotFoundException;
 import com.soignemoi.soignemoiapi.repository.SpecialtyRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,18 @@ public class SpecialtyService {
     @Autowired
     private SpecialtyRepository specialtyRepository;
 
-    public void create(Specialty newSpecialty) { specialtyRepository.save(newSpecialty); }
+    public void create(Specialty newSpecialty) {
+        specialtyRepository.save(newSpecialty);
+    }
 
-    public List<Specialty> loadSpecialties() { return specialtyRepository.findAll(); }
+    public Specialty loadById(int id) throws ValueNotFoundException {
+        return specialtyRepository
+                .findById(id)
+                .orElseThrow(() -> new ValueNotFoundException(String.format("No specialty found for this id:%13d ", id)));
+    }
+
+    public List<Specialty> loadSpecialties() {
+        return specialtyRepository.findAll();
+    }
 
 }

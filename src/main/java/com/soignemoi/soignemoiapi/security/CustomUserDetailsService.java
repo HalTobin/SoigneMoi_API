@@ -21,14 +21,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
-    // Mail is used as username
     @Override
-    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        UserEntity user = userService.findByMail(mail);
+    public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
+        UserEntity user = userService.findByIdentifier(identifier);
         return new User(user.getUsername(), user.getPassword(), mapRoleToAuthorities(user.getRole()));
     }
 
-    private Collection<GrantedAuthority> mapRoleToAuthorities(Role role) {
+    public Collection<GrantedAuthority> mapRoleToAuthorities(Role role) {
         return List.of(new SimpleGrantedAuthority(role.getRoleName()));
     }
 }

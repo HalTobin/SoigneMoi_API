@@ -1,12 +1,16 @@
 package com.soignemoi.soignemoiapi.service;
 
+import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorDto;
 import com.soignemoi.soignemoiapi.data.models.Doctor;
+import com.soignemoi.soignemoiapi.error.ValueNotFoundException;
 import com.soignemoi.soignemoiapi.repository.DoctorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class DoctorService {
@@ -18,6 +22,9 @@ public class DoctorService {
 
     public void create(Doctor newDoctor) { doctorRepository.save(newDoctor); }
 
+    public boolean doctorExist(String registrationNumber) {
+        return doctorRepository.existsDoctorByRegistrationNumber(registrationNumber);
+    }
     public boolean doDoctorsExist() {
         return (!doctorRepository.findAll().isEmpty());
     }
@@ -27,4 +34,6 @@ public class DoctorService {
                 .findByRegistrationNumber(registrationNumber)
                 .orElseThrow(() -> new UsernameNotFoundException("No doctor found for this registration number."));
     }
+
+    public List<Doctor> getAllDoctors() { return doctorRepository.findAll(); }
 }
