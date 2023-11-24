@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("Admin")
+                        .requestMatchers("/appointment/**").hasAuthority("Visitor")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

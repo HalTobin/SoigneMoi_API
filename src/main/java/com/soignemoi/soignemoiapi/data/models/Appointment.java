@@ -1,9 +1,6 @@
 package com.soignemoi.soignemoiapi.data.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
@@ -16,30 +13,52 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int userId;
-    private int doctorId;
+    @ManyToOne
+    @JoinColumn(name = "visitorId")
+    private Visitor visitor;
+    @ManyToOne
+    @JoinColumn(name = "doctorId")
+    private Doctor doctor;
     private Date dateStart;
     private Date dateEnd;
-    private int specialtyId;
+    @ManyToOne
+    @JoinColumn(name = "specialtyId")
+    private Specialty specialty;
     private String reason;
 
     public Appointment() {}
 
     public Appointment(
-            int id,
-            int userId,
-            int doctorId,
+            Visitor visitor,
+            Doctor doctor,
             Date dateStart,
             Date dateEnd,
-            int specialtyId,
+            Specialty specialty,
+            String reason
+    ) {
+        this.visitor = visitor;
+        this.doctor = doctor;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.specialty = specialty;
+        this.reason = reason;
+    }
+
+    public Appointment(
+            int id,
+            Visitor visitor,
+            Doctor doctor,
+            Date dateStart,
+            Date dateEnd,
+            Specialty specialty,
             String reason
     ) {
         this.id = id;
-        this.userId = userId;
-        this.doctorId = doctorId;
+        this.visitor = visitor;
+        this.doctor = doctor;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
-        this.specialtyId = specialtyId;
+        this.specialty = specialty;
         this.reason = reason;
     }
 

@@ -25,11 +25,17 @@ public class SpecialtyService {
     public Specialty loadById(int id) throws ValueNotFoundException {
         return specialtyRepository
                 .findById(id)
-                .orElseThrow(() -> new ValueNotFoundException(String.format("No specialty found for this id:%13d ", id)));
+                .orElseThrow(() -> new ValueNotFoundException(String.format("No specialty found for this id: %13d ", id)));
     }
 
     public List<Specialty> loadSpecialties() {
         return specialtyRepository.findAll();
+    }
+
+    public Specialty loadByTitle(String title) throws ValueNotFoundException {
+        return specialtyRepository
+                .findByTitle(title)
+                .orElseThrow(() -> new ValueNotFoundException(String.format("No specialty found for this this:%s ", title)));
     }
 
 }

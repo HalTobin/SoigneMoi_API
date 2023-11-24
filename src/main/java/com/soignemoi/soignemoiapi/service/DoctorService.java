@@ -32,7 +32,7 @@ public class DoctorService {
     public Doctor loadDoctorByRegistrationNumber(String registrationNumber) throws UsernameNotFoundException {
         return doctorRepository
                 .findByRegistrationNumber(registrationNumber)
-                .orElseThrow(() -> new UsernameNotFoundException("No doctor found for this registration number."));
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("No doctor found for this registration number: %s", registrationNumber)));
     }
 
     public List<Doctor> getAllDoctors() { return doctorRepository.findAll(); }

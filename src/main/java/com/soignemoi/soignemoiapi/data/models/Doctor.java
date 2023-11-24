@@ -17,7 +17,6 @@ public class Doctor extends UserEntity {
 
     private String name;
     private String surname;
-    //private int specialtyId;
     @ManyToOne
     @JoinColumn(name = "specialty_id")
     private Specialty specialty;
