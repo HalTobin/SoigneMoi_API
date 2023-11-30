@@ -1,7 +1,5 @@
 package com.soignemoi.soignemoiapi.controller;
 
-import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorDto;
-import com.soignemoi.soignemoiapi.data.dto.doctor.AdminPanelDto;
 import com.soignemoi.soignemoiapi.data.dto.doctor.NewDoctorDto;
 import com.soignemoi.soignemoiapi.data.models.Doctor;
 import com.soignemoi.soignemoiapi.error.ValueNotFoundException;
@@ -15,7 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("admin")

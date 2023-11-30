@@ -1,4 +1,4 @@
-package com.soignemoi.soignemoiapi.service.user;
+package com.soignemoi.soignemoiapi.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
 
 @Service
 public class DateService {
@@ -22,6 +24,11 @@ public class DateService {
         availableDateTime = availableDateTime.plusDays(1);
 
         return availableDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    }
+
+    public Date getCurrentDate() {
+        Calendar cal = Calendar.getInstance();
+        return cal.getTime();
     }
 
 }

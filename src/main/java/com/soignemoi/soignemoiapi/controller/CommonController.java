@@ -1,6 +1,6 @@
 package com.soignemoi.soignemoiapi.controller;
 
-import com.soignemoi.soignemoiapi.data.dto.doctor.AdminPanelDto;
+import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorsSpecialtiesDto;
 import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorDto;
 import com.soignemoi.soignemoiapi.service.DoctorService;
 import com.soignemoi.soignemoiapi.service.SpecialtyService;
@@ -25,8 +25,8 @@ public class CommonController {
     private SpecialtyService specialtyService;
 
     @GetMapping("/get_doctors")
-    public ResponseEntity<AdminPanelDto> getDoctors() {
-        AdminPanelDto doctorsDto = new AdminPanelDto(
+    public ResponseEntity<DoctorsSpecialtiesDto> getDoctors() {
+        DoctorsSpecialtiesDto doctorsDto = new DoctorsSpecialtiesDto(
                 doctorService.getAllDoctors().stream().map(doctor ->
                         new DoctorDto(
                                 doctor.getId(),

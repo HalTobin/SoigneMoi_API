@@ -1,9 +1,6 @@
 package com.soignemoi.soignemoiapi.controller;
 
-import com.soignemoi.soignemoiapi.data.dto.appointment.AvailableDateDto;
-import com.soignemoi.soignemoiapi.data.dto.appointment.BookAppointmentResponseDto;
-import com.soignemoi.soignemoiapi.data.dto.appointment.ExistingAppointmentDto;
-import com.soignemoi.soignemoiapi.data.dto.appointment.NewAppointmentDto;
+import com.soignemoi.soignemoiapi.data.dto.appointment.*;
 import com.soignemoi.soignemoiapi.data.models.Appointment;
 import com.soignemoi.soignemoiapi.data.models.Doctor;
 import com.soignemoi.soignemoiapi.data.models.Specialty;
@@ -14,7 +11,7 @@ import com.soignemoi.soignemoiapi.service.AppointmentService;
 import com.soignemoi.soignemoiapi.service.DoctorService;
 import com.soignemoi.soignemoiapi.service.SpecialtyService;
 import com.soignemoi.soignemoiapi.service.VisitorService;
-import com.soignemoi.soignemoiapi.service.user.DateService;
+import com.soignemoi.soignemoiapi.service.DateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("appointment")
@@ -80,14 +79,18 @@ public class AppointmentController {
                 );
                 Appointment savedAppointment = appointmentService.createAppointment(newAppointment);
                 return new ResponseEntity<>(
-                        new BookAppointmentResponseDto(savedAppointment.getId(), BookAppointmentResponseDto.BookingStatus.OK),
+                        new BookAppointmentResponseDto(
+                                savedAppointment.getId(),
+                                BookAppointmentResponseDto.BookingStatus.OK,
+                                new AppointmentDataDto(newAppointment.getDateStart(), newAppointment.getDateEnd(), newAppointment.getReason())
+                        ),
                         HttpStatus.OK
                 );
             } catch (ParseException e) {
                 return new ResponseEntity<>(new BookAppointmentResponseDto(-1, BookAppointmentResponseDto.BookingStatus.ERROR), HttpStatus.BAD_REQUEST);
             }
         } catch (AppointmentAlreadyTaken exception) {
-            ExistingAppointmentDto existingAppointmentDto = new ExistingAppointmentDto(
+            AppointmentDataDto existingAppointmentDto = new AppointmentDataDto(
                 exception.getAppointment().getDateStart(),
                 exception.getAppointment().getDateEnd(),
                 exception.getAppointment().getReason()
@@ -99,6 +102,29 @@ public class AppointmentController {
         }
     }
 
+    @GetMapping("my_appointments")
+    public ResponseEntity<AppointmentsDto> getMyAppointments(@AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            Visitor visitor = visitorService.loadVisitorByMail(userDetails.getUsername());
+            int visitorId = visitor.getId();
+            Date currentDate = dateService.getCurrentDate();
+
+            Appointment currentAppointment = appointmentService.getCurrentAppointment(currentDate, visitorId);
+            AppointmentDto currentAppointmentDto = null;
+            if (currentAppointment != null) currentAppointmentDto = mapToDto(currentAppointment);
+            List<AppointmentDto> pastAppointmentsDto = appointmentService.getPastAppointments(currentDate, visitorId)
+                    .stream().map(appointment -> mapToDto(appointment)).toList();
+            List<AppointmentDto> futureAppointmentsDto = appointmentService.getFutureAppointments(currentDate, visitorId)
+                    .stream().map(appointment -> mapToDto(appointment)).toList();
+
+            AppointmentsDto appointmentsDto = new AppointmentsDto(currentAppointmentDto, futureAppointmentsDto, pastAppointmentsDto);
+            return new ResponseEntity<>(appointmentsDto, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new AppointmentsDto(null, new ArrayList<>(), new ArrayList<>()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     private Date formatDate(String dateString) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -107,6 +133,18 @@ public class AppointmentController {
         } catch (ParseException e) {
             throw new ParseException(String.format("Could not parse %s", dateString), e.getErrorOffset());
         }
+    }
+
+    public static AppointmentDto mapToDto(Appointment appointment) {
+        return new AppointmentDto(
+                appointment.getId(),
+                appointment.getVisitor().getId(),
+                appointment.getDateStart(),
+                appointment.getDateEnd(),
+                appointment.getReason(),
+                appointment.getSpecialty().getTitle(),
+                appointment.getDoctor().getName()
+        );
     }
 
 }

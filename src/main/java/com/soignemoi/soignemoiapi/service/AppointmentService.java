@@ -40,4 +40,18 @@ public class AppointmentService {
                 .orElse(null);
     }
 
+    public Appointment getCurrentAppointment(Date date, int visitorId) {
+        return appointmentRepository
+                .findCurrentAppointment(date, visitorId)
+                .orElse(null);
+    }
+
+    public List<Appointment> getPastAppointments(Date date, int visitorId) {
+        return appointmentRepository.findPastAppointments(date, visitorId);
+    }
+
+    public List<Appointment> getFutureAppointments(Date date, int visitorId) {
+        return appointmentRepository.findFutureAppointments(date, visitorId);
+    }
+
 }

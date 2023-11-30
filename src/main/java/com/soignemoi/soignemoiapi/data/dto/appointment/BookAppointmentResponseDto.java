@@ -9,20 +9,27 @@ public class BookAppointmentResponseDto {
 
     private int id;
     private BookingStatus status;
-    private ExistingAppointmentDto existingAppointment;
+    private AppointmentDataDto appointmentData;
 
     public BookAppointmentResponseDto(
         int id,
-        BookingStatus bookingStatus
+        BookingStatus bookingStatus,
+        AppointmentDataDto appointmentData
     ) {
         this.id = id;
         this.status = bookingStatus;
+        this.appointmentData = appointmentData;
     }
 
-    public BookAppointmentResponseDto(ExistingAppointmentDto existingAppointmentDto) {
+    public BookAppointmentResponseDto(int id, BookingStatus status) {
+        this.id = id;
+        this.status = status;
+    }
+
+    public BookAppointmentResponseDto(AppointmentDataDto appointmentData) {
         this.id = -1;
         this.status = BookingStatus.NOT_AVAILABLE;
-        this.existingAppointment = existingAppointmentDto;
+        this.appointmentData = appointmentData;
     }
 
     @Getter

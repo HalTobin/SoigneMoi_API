@@ -4,6 +4,7 @@ import com.soignemoi.soignemoiapi.data.models.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.Date;
 import java.util.List;
@@ -32,5 +33,29 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     Optional<Appointment> findAppointmentByDateAndVisitorId(
             @Param("date_start") Date startDate,
             @Param("date_end") Date endDate,
+            @Param("visitorId") int visitorId);
+
+    @Query("SELECT a " +
+            "FROM Appointment a " +
+            "WHERE a.visitor.id = :visitorId " +
+            "AND :date BETWEEN a.dateStart AND a.dateEnd")
+    Optional<Appointment> findCurrentAppointment(
+            @Param("date") Date date,
+            @Param("visitorId") int visitorId);
+
+    @Query("SELECT a " +
+            "FROM Appointment a " +
+            "WHERE a.visitor.id = :visitorId " +
+            "AND :date > a.dateEnd")
+    List<Appointment> findPastAppointments(
+            @Param("date") Date date,
+            @Param("visitorId") int visitorId);
+
+    @Query("SELECT a " +
+            "FROM Appointment a " +
+            "WHERE a.visitor.id = :visitorId " +
+            "AND :date < a.dateStart")
+    List<Appointment> findFutureAppointments(
+            @Param("date") Date date,
             @Param("visitorId") int visitorId);
 }
