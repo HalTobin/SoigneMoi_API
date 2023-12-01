@@ -37,6 +37,10 @@ public class DoctorVisitService {
                 .orElseThrow(() -> new ValueNotFoundException(String.format("No DoctorVisit found for this appointmentId: %13d", appointmentId)));
     }
 
-    public boolean doesVisitExistByAppointmentIdAndDate(int appointmentId, Date date) { return doctorVisitRepository.existsByAppointmentIdAndDate(appointmentId, date); }
+    public int howMuchVisitForTodayByDoctorId(int doctorId) {
+        return doctorVisitRepository.howMuchVisitForTodayByDoctorId(doctorId);
+    }
+
+    public boolean doesVisitExistByAppointmentIdAndDate(int appointmentId) { return doctorVisitRepository.existsByAppointmentIdAndDate(appointmentId); }
 
 }

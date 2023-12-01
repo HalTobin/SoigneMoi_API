@@ -27,6 +27,10 @@ public class AppointmentService {
         return appointmentRepository.save(newAppointment);
     }
 
+    public Appointment getById(int id) {
+        return appointmentRepository.findById(id);
+    }
+
     public List<Appointment> getAllByDoctorId(int doctorId) { return appointmentRepository.findAllByDoctorId(doctorId); }
 
     public List<Appointment> getAllByVisitorId(int visitorId) { return appointmentRepository.findAllByVisitorId(visitorId); }

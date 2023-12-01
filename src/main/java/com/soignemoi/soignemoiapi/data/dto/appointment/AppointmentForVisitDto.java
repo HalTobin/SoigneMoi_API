@@ -1,8 +1,7 @@
 package com.soignemoi.soignemoiapi.data.dto.appointment;
 
 import com.soignemoi.soignemoiapi.data.dto.VisitorDto;
-import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorDto;
-import com.soignemoi.soignemoiapi.data.models.Specialty;
+import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorForVisitDto;
 import lombok.Data;
 
 @Data
@@ -10,14 +9,14 @@ public class AppointmentForVisitDto {
 
     AppointmentDto appointment;
     int lastVisit;
-    DoctorDto doctor;
+    DoctorForVisitDto doctor;
     VisitorDto visitor;
     boolean visitForToday;
 
     public AppointmentForVisitDto(
             AppointmentDto appointment,
             int lastVisit,
-            DoctorDto doctor,
+            DoctorForVisitDto doctor,
             VisitorDto visitor,
             boolean visitForToday
     ) {

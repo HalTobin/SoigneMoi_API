@@ -1,12 +1,13 @@
 package com.soignemoi.soignemoiapi.controller;
 
 
+import com.soignemoi.soignemoiapi.data.dto.NewDoctorVisitDto;
 import com.soignemoi.soignemoiapi.data.dto.VisitorDto;
 import com.soignemoi.soignemoiapi.data.dto.appointment.AppointmentDto;
 import com.soignemoi.soignemoiapi.data.dto.appointment.AppointmentForVisitDto;
-import com.soignemoi.soignemoiapi.data.dto.appointment.AppointmentsDto;
-import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorDto;
+import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorForVisitDto;
 import com.soignemoi.soignemoiapi.data.models.Appointment;
+import com.soignemoi.soignemoiapi.data.models.DoctorVisit;
 import com.soignemoi.soignemoiapi.error.ValueNotFoundException;
 import com.soignemoi.soignemoiapi.service.AppointmentService;
 import com.soignemoi.soignemoiapi.service.DateService;
@@ -16,9 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -39,6 +38,21 @@ public class DoctorVisitController {
     @Autowired
     private DateService dateService;
 
+    @PostMapping("/new")
+    public ResponseEntity<Boolean> newDoctorVisit(
+        @RequestBody NewDoctorVisitDto newDoctorVisitDto
+    ) {
+        Appointment appointment = appointmentService.getById(newDoctorVisitDto.getAppointmentId());
+        DoctorVisit newDoctorVisit = new DoctorVisit(
+            appointment.getVisitor(),
+            appointment.getDoctor(),
+            appointment,
+            dateService.getCurrentDate()
+        );
+        doctorVisitService.create(newDoctorVisit);
+        return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+    }
+
     @GetMapping("/today_appointments")
     public ResponseEntity<List<AppointmentForVisitDto>> getAppointmentOfTheDay() {
         Date currenDate = dateService.getCurrentDate();
@@ -56,12 +70,11 @@ public class DoctorVisitController {
                           appointment.getSpecialty().getTitle(),
                           appointment.getDoctor().getName()
                     );
-                    DoctorDto doctorDto = new DoctorDto(
+                    DoctorForVisitDto doctorDto = new DoctorForVisitDto(
                         appointment.getDoctor().getId(),
                         appointment.getDoctor().getName(),
-                        appointment.getDoctor().getSurname(),
                         appointment.getDoctor().getRegistrationNumber(),
-                        appointment.getDoctor().getSpecialty()
+                        doctorVisitService.howMuchVisitForTodayByDoctorId(appointment.getDoctor().getId())
                     );
                     VisitorDto visitorDto = new VisitorDto(
                         appointment.getVisitor().getName(),
@@ -81,7 +94,7 @@ public class DoctorVisitController {
                             lastVisit,
                             doctorDto,
                             visitorDto,
-                            doctorVisitService.doesVisitExistByAppointmentIdAndDate(appointment.getId(), currenDate)
+                            doctorVisitService.doesVisitExistByAppointmentIdAndDate(appointment.getId())
                     );
                 }).toList();
         return new ResponseEntity<>(dto, HttpStatus.OK);

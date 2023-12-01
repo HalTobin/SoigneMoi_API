@@ -58,4 +58,17 @@ public class DoctorVisit {
         this.done = false;
     }
 
+    public DoctorVisit(
+            Visitor visitor,
+            Doctor doctor,
+            Appointment appointment,
+            Date date
+    ) {
+        this.visitor = visitor;
+        this.doctor = doctor;
+        this.appointment = appointment;
+        this.date = date;
+        this.done = false;
+    }
+
 }
