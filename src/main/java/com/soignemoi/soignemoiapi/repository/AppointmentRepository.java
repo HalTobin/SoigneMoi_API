@@ -38,24 +38,25 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     @Query("SELECT a " +
             "FROM Appointment a " +
             "WHERE a.visitor.id = :visitorId " +
-            "AND :date BETWEEN a.dateStart AND a.dateEnd")
+            "AND CURRENT_DATE BETWEEN a.dateStart AND a.dateEnd")
     Optional<Appointment> findCurrentAppointment(
-            @Param("date") Date date,
             @Param("visitorId") int visitorId);
 
     @Query("SELECT a " +
             "FROM Appointment a " +
             "WHERE a.visitor.id = :visitorId " +
-            "AND :date > a.dateEnd")
+            "AND CURRENT_DATE > a.dateEnd")
     List<Appointment> findPastAppointments(
-            @Param("date") Date date,
             @Param("visitorId") int visitorId);
 
     @Query("SELECT a " +
             "FROM Appointment a " +
             "WHERE a.visitor.id = :visitorId " +
-            "AND :date < a.dateStart")
+            "AND CURRENT_DATE < a.dateStart")
     List<Appointment> findFutureAppointments(
-            @Param("date") Date date,
             @Param("visitorId") int visitorId);
+
+    @Query("SELECT a FROM Appointment a WHERE a.dateStart <= CURRENT_DATE AND a.dateEnd >= CURRENT_DATE")
+    List<Appointment> findAllAppointmentsByDate();
+
 }

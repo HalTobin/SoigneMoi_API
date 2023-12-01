@@ -109,12 +109,12 @@ public class AppointmentController {
             int visitorId = visitor.getId();
             Date currentDate = dateService.getCurrentDate();
 
-            Appointment currentAppointment = appointmentService.getCurrentAppointment(currentDate, visitorId);
+            Appointment currentAppointment = appointmentService.getCurrentAppointment(visitorId);
             AppointmentDto currentAppointmentDto = null;
             if (currentAppointment != null) currentAppointmentDto = mapToDto(currentAppointment);
-            List<AppointmentDto> pastAppointmentsDto = appointmentService.getPastAppointments(currentDate, visitorId)
+            List<AppointmentDto> pastAppointmentsDto = appointmentService.getPastAppointments(visitorId)
                     .stream().map(appointment -> mapToDto(appointment)).toList();
-            List<AppointmentDto> futureAppointmentsDto = appointmentService.getFutureAppointments(currentDate, visitorId)
+            List<AppointmentDto> futureAppointmentsDto = appointmentService.getFutureAppointments(visitorId)
                     .stream().map(appointment -> mapToDto(appointment)).toList();
 
             AppointmentsDto appointmentsDto = new AppointmentsDto(currentAppointmentDto, futureAppointmentsDto, pastAppointmentsDto);
