@@ -1,6 +1,6 @@
 package com.soignemoi.soignemoiapi.controller;
 
-import com.soignemoi.soignemoiapi.data.dto.doctor.AdminPanelDto;
+import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorsSpecialtiesDto;
 import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorDto;
 import com.soignemoi.soignemoiapi.service.DoctorService;
 import com.soignemoi.soignemoiapi.service.SpecialtyService;
@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +25,8 @@ public class CommonController {
     private SpecialtyService specialtyService;
 
     @GetMapping("/get_doctors")
-    public ResponseEntity<AdminPanelDto> getDoctors(@AuthenticationPrincipal UserDetails userDetails) {
-        AdminPanelDto doctorsDto = new AdminPanelDto(
+    public ResponseEntity<DoctorsSpecialtiesDto> getDoctors() {
+        DoctorsSpecialtiesDto doctorsDto = new DoctorsSpecialtiesDto(
                 doctorService.getAllDoctors().stream().map(doctor ->
                         new DoctorDto(
                                 doctor.getId(),
