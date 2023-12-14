@@ -43,4 +43,6 @@ public class DoctorVisitService {
 
     public boolean doesVisitExistByAppointmentIdAndDate(int appointmentId) { return doctorVisitRepository.existsByAppointmentIdAndDate(appointmentId); }
 
+    public List<DoctorVisit> getVisitForTodayByDoctorId(int doctorId) { return doctorVisitRepository.findForTodayByDoctorId(doctorId); }
+
 }

@@ -25,11 +25,16 @@ public interface DoctorVisitRepository extends JpaRepository<DoctorVisit, Intege
     @Query("SELECT COUNT(dv) FROM DoctorVisit dv WHERE dv.doctor.id = :doctorId AND dv.date = CURRENT_DATE")
     int howMuchVisitForTodayByDoctorId(@Param("doctorId") int doctorId);
 
-    @Query("SELECT dv FROM DoctorVisit dv WHERE dv.appointment.id = :appointmentId ORDER BY dv.date DESC")
+    @Query("SELECT dv FROM DoctorVisit dv WHERE dv.appointment.id = :appointmentId ORDER BY dv.date DESC LIMIT 1")
     Optional<DoctorVisit> findLatestByAppointmentId(@Param("appointmentId") int appointmentId);
 
     @Modifying
     @Query("UPDATE DoctorVisit visit SET visit.done = :done WHERE visit.id = :id")
     void setDoneForDoctorVisit(@Param("done") boolean done, @Param("id") int id);
+
+    @Query("SELECT dv " +
+            "FROM DoctorVisit dv " +
+            "WHERE dv.doctor.id = :doctorId AND dv.date = CURRENT_DATE")
+    List<DoctorVisit> findForTodayByDoctorId(@Param("doctorId") int doctorId);
 
 }
