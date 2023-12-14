@@ -1,10 +1,7 @@
 package com.soignemoi.soignemoiapi.data.models;
 
 import com.soignemoi.soignemoiapi.data.values.Frequency;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -15,6 +12,7 @@ public class PrescriptionEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "prescription_id")
     private int prescriptionId;
     private int dosage;
     private Frequency frequency;
