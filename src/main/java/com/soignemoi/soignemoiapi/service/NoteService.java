@@ -13,6 +13,10 @@ public class NoteService {
     @Autowired
     NoteRepository noteRepository;
 
+    public Note createNote(Note note) {
+        return noteRepository.save(note);
+    }
+
     public List<Note> getNotesByAppointmentId(int appointmentId) {
         return noteRepository.findByAppointmentId(appointmentId);
     }

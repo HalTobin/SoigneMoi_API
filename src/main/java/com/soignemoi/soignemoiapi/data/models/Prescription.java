@@ -39,4 +39,16 @@ public class Prescription {
         this.prescriptionEntries = prescriptionEntries;
     }
 
+    public Prescription(
+            int appointmentId,
+            Date start,
+            Date end,
+            List<PrescriptionEntry> prescriptionEntries
+    ) {
+        this.appointmentId = appointmentId;
+        this.start = start;
+        this.end = end;
+        this.prescriptionEntries = prescriptionEntries;
+    }
+
 }

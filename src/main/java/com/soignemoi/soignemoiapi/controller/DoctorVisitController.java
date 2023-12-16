@@ -39,7 +39,7 @@ public class DoctorVisitController {
     private DateService dateService;
 
     @PostMapping("/new")
-    public ResponseEntity<Boolean> newDoctorVisit(
+    public ResponseEntity<List<AppointmentForVisitDto>> newDoctorVisit(
         @RequestBody NewDoctorVisitDto newDoctorVisitDto
     ) {
         Appointment appointment = appointmentService.getById(newDoctorVisitDto.getAppointmentId());
@@ -50,7 +50,7 @@ public class DoctorVisitController {
             dateService.getCurrentDate()
         );
         doctorVisitService.create(newDoctorVisit);
-        return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+        return getAppointmentOfTheDay();
     }
 
     @GetMapping("/today_appointments")

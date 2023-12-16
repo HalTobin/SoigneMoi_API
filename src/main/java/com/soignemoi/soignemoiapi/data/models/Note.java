@@ -43,4 +43,20 @@ public class Note {
         this.date = date;
     }
 
+    public Note(
+            int appointmentId,
+            int doctorId,
+            int userId,
+            String title,
+            String content,
+            Date date
+    ) {
+        this.appointmentId = appointmentId;
+        this.doctorId = doctorId;
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+        this.date = date;
+    }
+
 }

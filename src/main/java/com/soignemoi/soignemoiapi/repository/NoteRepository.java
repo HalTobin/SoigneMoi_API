@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface NoteRepository extends JpaRepository<Note, Integer> {
 
+    Note save(Note note);
     List<Note> findByAppointmentId(int appointmentId);
 
 }

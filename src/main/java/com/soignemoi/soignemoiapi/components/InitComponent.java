@@ -1,11 +1,13 @@
 package com.soignemoi.soignemoiapi.components;
 
 import com.soignemoi.soignemoiapi.data.models.Doctor;
+import com.soignemoi.soignemoiapi.data.models.Medicine;
 import com.soignemoi.soignemoiapi.data.models.Specialty;
 import com.soignemoi.soignemoiapi.data.models.Staff;
 import com.soignemoi.soignemoiapi.data.values.StaffType;
 import com.soignemoi.soignemoiapi.error.ValueNotFoundException;
 import com.soignemoi.soignemoiapi.service.DoctorService;
+import com.soignemoi.soignemoiapi.service.MedicineService;
 import com.soignemoi.soignemoiapi.service.SpecialtyService;
 import com.soignemoi.soignemoiapi.service.StaffService;
 import org.slf4j.Logger;
@@ -31,6 +33,8 @@ public class InitComponent implements InitializingBean {
     private SpecialtyService specialtyService;
     @Autowired
     private DoctorService doctorService;
+    @Autowired
+    private MedicineService medicineService;
 
     @Override
     public void afterPropertiesSet() throws ValueNotFoundException {
@@ -71,6 +75,24 @@ public class InitComponent implements InitializingBean {
             };
             for (Doctor doctor: doctors) {
                 doctorService.create(doctor);
+            }
+        }
+        if (medicineService.getAllMedicines().isEmpty()) {
+            Medicine[] medicines = new Medicine[]{
+                    new Medicine("Doliprane 500"),
+                    new Medicine("Doliprane 1000"),
+                    new Medicine("Bisoprole"),
+                    new Medicine("Nébivolol"),
+                    new Medicine("Methotrexate"),
+                    new Medicine("Hydroxychloroquine"),
+                    new Medicine("Dextromethorphane"),
+                    new Medicine("Xanax"),
+                    new Medicine("Vitamine C"),
+                    new Medicine("Vitamine D"),
+                    new Medicine("Calcium"),
+            };
+            for (Medicine medicine: medicines) {
+                medicineService.createMedicine(medicine);
             }
         }
         System.out.println("Default entries created!");

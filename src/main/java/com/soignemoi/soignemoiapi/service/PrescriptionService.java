@@ -13,8 +13,16 @@ public class PrescriptionService {
     @Autowired
     PrescriptionRepository prescriptionRepository;
 
-    public List<Prescription> getPrescriptionsByAppointmentsId(int appointmentId) {
+    public List<Prescription> getPrescriptionsByAppointmentId(int appointmentId) {
         return prescriptionRepository.findByAppointmentId(appointmentId);
+    }
+
+    public Prescription getPrescriptionById(int id) {
+        return prescriptionRepository.findByid(id);
+    }
+
+    public void create(Prescription newPrescription) {
+        prescriptionRepository.save(newPrescription);
     }
 
 }

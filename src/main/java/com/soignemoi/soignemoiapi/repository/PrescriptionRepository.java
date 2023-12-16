@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface PrescriptionRepository extends JpaRepository<Prescription, Integer> {
 
+        Prescription save(Prescription prescription);
         List<Prescription> findByAppointmentId(int appointmentId);
+
+        Prescription findByid(int id);
 
 }

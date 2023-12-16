@@ -25,4 +25,6 @@ public class Medicine {
         this.id = id;
         this.title = title;
     }
+
+    public Medicine(String title) { this.title = title; }
 }

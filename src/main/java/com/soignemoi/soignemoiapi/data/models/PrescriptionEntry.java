@@ -17,6 +17,9 @@ public class PrescriptionEntry {
     private int dosage;
     private Frequency frequency;
     private String note;
+    @ManyToOne
+    @JoinColumn(name = "medicine_id")
+    private Medicine medicine;
 
     public PrescriptionEntry() {}
 
@@ -25,13 +28,27 @@ public class PrescriptionEntry {
             int prescriptionId,
             int dosage,
             Frequency frequency,
-            String note
+            String note,
+            Medicine medicine
     ) {
         this.id = id;
         this.prescriptionId = prescriptionId;
         this.dosage = dosage;
         this.frequency = frequency;
         this.note = note;
+        this.medicine = medicine;
+    }
+
+    public PrescriptionEntry(
+            int dosage,
+            Frequency frequency,
+            String note,
+            Medicine medicine
+    ) {
+        this.dosage = dosage;
+        this.frequency = frequency;
+        this.note = note;
+        this.medicine = medicine;
     }
 
 }
