@@ -18,12 +18,12 @@ public class PrescriptionDto {
 
     @Override
     public String toString() {
-        return "{ id:" + id.toString()
-                + ", appointmendId: " + appointmentId
-                + ", start: " + start.toString()
-                + ", end:" + end.toString()
-                + ", entries: " + entries.size()
-                + " }";
+        return "{ id:" + id.toString() +
+                ", appointmentId: " + appointmentId +
+                ", start: " + start +
+                ", end:" + end +
+                ", entries: " + entries.size() +
+                " }";
     }
 
 }

@@ -12,8 +12,9 @@ public class PrescriptionEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "prescription_id")
-    private int prescriptionId;
+    @ManyToOne
+    @JoinColumn(name = "prescription_id")
+    private Prescription prescription;
     private int dosage;
     private Frequency frequency;
     private String note;
@@ -25,14 +26,14 @@ public class PrescriptionEntry {
 
     public PrescriptionEntry(
             int id,
-            int prescriptionId,
+            Prescription prescription,
             int dosage,
             Frequency frequency,
             String note,
             Medicine medicine
     ) {
         this.id = id;
-        this.prescriptionId = prescriptionId;
+        this.prescription = prescription;
         this.dosage = dosage;
         this.frequency = frequency;
         this.note = note;
@@ -40,11 +41,13 @@ public class PrescriptionEntry {
     }
 
     public PrescriptionEntry(
+            Prescription prescription,
             int dosage,
             Frequency frequency,
             String note,
             Medicine medicine
     ) {
+        this.prescription = prescription;
         this.dosage = dosage;
         this.frequency = frequency;
         this.note = note;

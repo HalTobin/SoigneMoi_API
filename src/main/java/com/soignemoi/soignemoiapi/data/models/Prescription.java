@@ -16,8 +16,8 @@ public class Prescription {
 
     private int appointmentId;
 
-    private Date start;
-    private Date end;
+    private Date startDate;
+    private Date endDate;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "prescription_id", referencedColumnName = "id")
@@ -28,26 +28,26 @@ public class Prescription {
     public Prescription(
             int id,
             int appointmentId,
-            Date start,
-            Date end,
+            Date startDate,
+            Date endDate,
             List<PrescriptionEntry> prescriptionEntries
     ) {
         this.id = id;
         this.appointmentId = appointmentId;
-        this.start = start;
-        this.end = end;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.prescriptionEntries = prescriptionEntries;
     }
 
     public Prescription(
             int appointmentId,
-            Date start,
-            Date end,
+            Date startDate,
+            Date endDate,
             List<PrescriptionEntry> prescriptionEntries
     ) {
         this.appointmentId = appointmentId;
-        this.start = start;
-        this.end = end;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.prescriptionEntries = prescriptionEntries;
     }
 

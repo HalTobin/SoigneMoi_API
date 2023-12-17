@@ -2,6 +2,7 @@ package com.soignemoi.soignemoiapi.data.dto.patient;
 
 import com.soignemoi.soignemoiapi.data.dto.appointment.AppointmentDto;
 import com.soignemoi.soignemoiapi.data.dto.doctor.DoctorDto;
+import com.soignemoi.soignemoiapi.data.dto.prescription.PrescriptionDto;
 import com.soignemoi.soignemoiapi.data.models.Note;
 import com.soignemoi.soignemoiapi.data.models.Prescription;
 import com.soignemoi.soignemoiapi.data.models.Specialty;
@@ -22,7 +23,7 @@ public class PatientDetailsDto {
     private Date startDate;
     private Date endDate;
     private List<Note> notes;
-    private List<Prescription> prescriptions;
+    private List<PrescriptionDto> prescriptions;
 
     public PatientDetailsDto(
             int id,
@@ -34,7 +35,7 @@ public class PatientDetailsDto {
             Date startDate,
             Date endDate,
             List<Note> notes,
-            List<Prescription> prescriptions
+            List<PrescriptionDto> prescriptions
     ) {
         this.id = id;
         this.name = name;

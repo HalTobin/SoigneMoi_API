@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.soignemoi.soignemoiapi.util.DateUtil.formatDate;
+
 @RestController
 @RequestMapping("appointment")
 public class AppointmentController {
@@ -122,16 +124,6 @@ public class AppointmentController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(new AppointmentsDto(null, new ArrayList<>(), new ArrayList<>()), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    private Date formatDate(String dateString) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            System.out.println(dateString); // This will print the parsed Date object
-            return dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            throw new ParseException(String.format("Could not parse %s", dateString), e.getErrorOffset());
         }
     }
 

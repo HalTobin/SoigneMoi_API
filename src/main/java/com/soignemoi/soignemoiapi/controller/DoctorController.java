@@ -6,8 +6,7 @@ import com.soignemoi.soignemoiapi.data.dto.note.AddNoteDto;
 import com.soignemoi.soignemoiapi.data.dto.note.ResultNoteDto;
 import com.soignemoi.soignemoiapi.data.dto.patient.PatientDetailsDto;
 import com.soignemoi.soignemoiapi.data.dto.patient.PatientDto;
-import com.soignemoi.soignemoiapi.data.dto.prescription.EntryDto;
-import com.soignemoi.soignemoiapi.data.dto.prescription.PrescriptionDto;
+import com.soignemoi.soignemoiapi.data.dto.prescription.*;
 import com.soignemoi.soignemoiapi.data.models.*;
 import com.soignemoi.soignemoiapi.data.values.Frequency;
 import com.soignemoi.soignemoiapi.service.*;
@@ -20,8 +19,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.soignemoi.soignemoiapi.util.DateUtil.formatDate;
 import static java.util.stream.Collectors.toList;
 
 
@@ -99,7 +101,23 @@ public class DoctorController {
             appointment.getDateStart(),
             appointment.getDateEnd(),
             noteService.getNotesByAppointmentId(appointment.getId()),
-            prescriptionService.getPrescriptionsByAppointmentId(appointment.getId())
+            prescriptionService.getPrescriptionsByAppointmentId(appointment.getId()).stream().map(prescription ->
+                    new PrescriptionDto(
+                            prescription.getId(),
+                            prescription.getAppointmentId(),
+                            prescription.getStartDate(),
+                            prescription.getEndDate(),
+                            prescription.getPrescriptionEntries().stream().map(entry ->
+                                    new EntryDto(
+                                            entry.getPrescription().getId(),
+                                            entry.getDosage(),
+                                            entry.getFrequency().getId(),
+                                            entry.getNote(),
+                                            entry.getMedicine()
+                                    )
+                                    ).toList()
+                    )
+                    ).toList()
         );
 
         return new ResponseEntity<>(patient, HttpStatus.OK);
@@ -135,16 +153,16 @@ public class DoctorController {
     }
 
     @GetMapping("get_prescription")
-    public ResponseEntity<PrescriptionDto> getPrescription(@RequestParam int prescriptionId) {
+    public ResponseEntity<SimplePrescriptionDto> getPrescription(@RequestParam int prescriptionId) {
         Prescription prescription = prescriptionService.getPrescriptionById(prescriptionId);
-        PrescriptionDto dto = new PrescriptionDto(
+        SimplePrescriptionDto dto = new SimplePrescriptionDto(
                 prescription.getId(),
                 prescription.getAppointmentId(),
-                prescription.getStart(),
-                prescription.getEnd(),
+                prescription.getStartDate(),
+                prescription.getEndDate(),
                 prescription.getPrescriptionEntries().stream().map(entry ->
-                        new EntryDto(
-                                entry.getPrescriptionId(),
+                        new SimpleEntryDto(
+                                entry.getPrescription().getId(),
                                 entry.getDosage(),
                                 entry.getFrequency().getId(),
                                 entry.getNote(),
@@ -156,24 +174,37 @@ public class DoctorController {
     }
 
     @PostMapping("save_prescription")
-    public ResponseEntity<Boolean> savePrescription(@RequestBody PrescriptionDto newPrescriptionDto) {
+    public ResponseEntity<Boolean> savePrescription(@RequestBody AddPrescriptionDto newPrescriptionDto) throws ParseException {
         System.out.println(newPrescriptionDto.toString());
         if (newPrescriptionDto.getId() == null) {
             Prescription newPrescription = new Prescription(
                     newPrescriptionDto.getAppointmentId(),
-                    newPrescriptionDto.getStart(),
-                    newPrescriptionDto.getEnd(),
-                    newPrescriptionDto.getEntries().stream().map(entry ->
-                            new PrescriptionEntry(
-                                    entry.getDosage(),
-                                    Frequency.getFromId(entry.getFrequency()),
-                                    entry.getNote(),
-                                    medicineService.getById(entry.getMedicineId())
-                            )
-                            ).toList()
+                    formatDate(newPrescriptionDto.getStart()),
+                    formatDate(newPrescriptionDto.getEnd()),
+                    new ArrayList<>()
             );
+
+            for (AddEntryDto entryDto : newPrescriptionDto.getEntries()) {
+                PrescriptionEntry prescriptionEntry = new PrescriptionEntry(
+                        newPrescription,
+                        entryDto.getDosage(),
+                        Frequency.getFromId(entryDto.getFrequency()),
+                        entryDto.getNote(),
+                        medicineService.getById(entryDto.getMedicineId())
+                );
+
+                // Add to the list
+                newPrescription.getPrescriptionEntries().add(prescriptionEntry);
+            }
+
             prescriptionService.create(newPrescription);
         }
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PostMapping("update_end_date")
+    public ResponseEntity<Boolean> updateEndDate(@RequestParam int prescriptionId, @RequestParam String newEndDate) throws ParseException {
+        prescriptionService.updateEndDate(prescriptionId, formatDate(newEndDate));
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
