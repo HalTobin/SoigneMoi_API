@@ -35,5 +35,11 @@ public class DoctorService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("No doctor found for this registration number: %s", registrationNumber)));
     }
 
+    public Doctor getDoctorById(int id) throws ValueNotFoundException {
+        return doctorRepository
+                .findById(id)
+                .orElseThrow(() -> new ValueNotFoundException(String.format("No doctor found for this id: %d", id)));
+    }
+
     public List<Doctor> getAllDoctors() { return doctorRepository.findAll(); }
 }

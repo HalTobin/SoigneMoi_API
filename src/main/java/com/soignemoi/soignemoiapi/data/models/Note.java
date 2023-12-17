@@ -16,6 +16,7 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private int appointmentId;
     private int doctorId;
     private int userId;
     private String title;
@@ -26,6 +27,7 @@ public class Note {
 
     public Note(
             int id,
+            int appointmentId,
             int doctorId,
             int userId,
             String title,
@@ -33,6 +35,23 @@ public class Note {
             Date date
     ) {
         this.id = id;
+        this.appointmentId = appointmentId;
+        this.doctorId = doctorId;
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+        this.date = date;
+    }
+
+    public Note(
+            int appointmentId,
+            int doctorId,
+            int userId,
+            String title,
+            String content,
+            Date date
+    ) {
+        this.appointmentId = appointmentId;
         this.doctorId = doctorId;
         this.userId = userId;
         this.title = title;

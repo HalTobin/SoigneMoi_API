@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     Doctor save(Doctor doctor);
-    Doctor findById(int id);
+    Optional<Doctor> findById(int id);
     Optional<Doctor> findByRegistrationNumber(String registrationNumber);
     List<Doctor> findAll();
     boolean existsDoctorByRegistrationNumber(String registrationNumber);

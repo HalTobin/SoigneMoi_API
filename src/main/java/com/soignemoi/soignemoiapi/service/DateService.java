@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -28,7 +29,15 @@ public class DateService {
 
     public Date getCurrentDate() {
         Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
+    }
+
+    public static int daysBetween(Date startDate, Date endDate) {
+        return (int) ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant());
     }
 
 }

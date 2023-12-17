@@ -6,6 +6,7 @@ import com.soignemoi.soignemoiapi.data.dto.auth.LoginDto;
 import com.soignemoi.soignemoiapi.data.dto.auth.RegisterDto;
 import com.soignemoi.soignemoiapi.data.models.Visitor;
 import com.soignemoi.soignemoiapi.security.JwtGenerator;
+import com.soignemoi.soignemoiapi.security.SecurityConstant;
 import com.soignemoi.soignemoiapi.service.user.UserService;
 import com.soignemoi.soignemoiapi.service.VisitorService;
 import org.slf4j.Logger;
@@ -44,7 +45,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
         UserEntity user = userService.findByIdentifier(loginDto.getMail());
-        return new ResponseEntity<>(new AuthResponseDto(token, user.getRole().getRoleName()), HttpStatus.OK);
+        return new ResponseEntity<>(new AuthResponseDto(token, user.getRole().getRoleName(), SecurityConstant.JWT_EXPIRATION), HttpStatus.OK);
     }
 
     @PostMapping("/register")
