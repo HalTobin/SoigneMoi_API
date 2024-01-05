@@ -21,6 +21,8 @@ public class StaffService {
 
     public boolean doesAdminExist() { return staffRepository.existsByStaffType(StaffType.ADMIN); }
 
+    public boolean doReceptionExist() { return staffRepository.existsByStaffType(StaffType.SECRETARY); }
+
     public Staff loadStaffByMail(String mail) throws UsernameNotFoundException {
         return staffRepository
                 .findByMail(mail)

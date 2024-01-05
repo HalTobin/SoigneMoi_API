@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/home/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("Admin")
                         .requestMatchers("/doctor/**").hasAuthority("Doctor")
+                        .requestMatchers("/secretary/**").hasAuthority("Secretary")
                         .requestMatchers("/appointment/**").hasAuthority("Visitor")
                         .anyRequest().authenticated()
                 )

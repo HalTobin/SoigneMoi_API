@@ -77,6 +77,17 @@ public class InitComponent implements InitializingBean {
                 doctorService.create(doctor);
             }
         }
+        // Generate default staff
+        if (!staffService.doReceptionExist()) {
+            Staff newStaff = new Staff();
+            newStaff.setMail("reception1@soignemoi.fr");
+            newStaff.setName("Fedir");
+            newStaff.setSurname("Inna");
+            newStaff.setPassword(passwordEncoder.encode("fedir.inna"));
+            newStaff.setStaffType(StaffType.SECRETARY);
+            staffService.create(newStaff);
+            System.out.println("Staff created!");
+        }
         if (medicineService.getAllMedicines().isEmpty()) {
             Medicine[] medicines = new Medicine[]{
                     new Medicine("Doliprane 500"),

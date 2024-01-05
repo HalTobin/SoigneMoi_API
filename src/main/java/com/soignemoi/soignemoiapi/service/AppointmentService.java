@@ -62,4 +62,7 @@ public class AppointmentService {
         return appointmentRepository.findAllAppointmentsByDate();
     }
 
+    public List<Appointment> getStartingAppointments() { return appointmentRepository.findStartingAppointment(); }
+    public List<Appointment> getEndingAppointments() { return appointmentRepository.findEndingAppointment(); }
+
 }
