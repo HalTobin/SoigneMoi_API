@@ -59,4 +59,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     @Query("SELECT a FROM Appointment a WHERE a.dateStart <= CURRENT_DATE AND a.dateEnd >= CURRENT_DATE")
     List<Appointment> findAllAppointmentsByDate();
 
+    @Query("SELECT a FROM Appointment a WHERE a.dateStart = CURRENT_DATE")
+    List<Appointment> findStartingAppointment();
+
+    @Query("SELECT a FROM Appointment a WHERE a.dateEnd = CURRENT_DATE")
+    List<Appointment> findEndingAppointment();
+
 }
