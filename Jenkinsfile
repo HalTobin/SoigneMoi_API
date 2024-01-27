@@ -5,9 +5,8 @@ pipeline {
         stage('Build env') {
             steps {
                 script {
-                    SERVER = ${SERVER};
-					JAVA_HOME = ${JDK};
-					MAVEN = ${MAVEN_HOME};
+                    SERVER = "${SERVER}";
+					JAVA_HOME = "${JDK}";
                 }
             }
         }
@@ -15,9 +14,8 @@ pipeline {
         stage('Build Jar') {
             steps {
                 withEnv(['JAVA_HOME='+JAVA_HOME, 'MAVEN='+MAVEN]){
-                    sh '''export JAVA_HOME=${JAVA_HOME} && ${MAVEN} clean install \
-                        -Dstyle.color=never \
-                        -Dmaven.test.skip=true
+                    sh '''export JAVA_HOME=${JAVA_HOME} && gradlew build \
+                        -Dstyle.color=never
                         '''
                 }
             }
