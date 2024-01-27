@@ -1,13 +1,14 @@
 package com.soignemoi.soignemoiapi.service;
 
-import com.soignemoi.soignemoiapi.controller.AuthController;
-import com.soignemoi.soignemoiapi.data.model.Visitor;
+import com.soignemoi.soignemoiapi.data.models.Visitor;
 import com.soignemoi.soignemoiapi.repository.VisitorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class VisitorService {
@@ -23,7 +24,7 @@ public class VisitorService {
         return visitorRepository.findById(id);
     }
 
-    public Visitor loadVisitorByMail(String mail) throws Exception {
+    public Visitor loadVisitorByMail(String mail) throws UsernameNotFoundException {
         return visitorRepository
                 .findByMail(mail)
                 .orElseThrow(() -> new UsernameNotFoundException("Mail not found"));

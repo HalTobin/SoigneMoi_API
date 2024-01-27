@@ -1,31 +1,25 @@
-package com.soignemoi.soignemoiapi.data.model;
+package com.soignemoi.soignemoiapi.data.dto.note;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-@Entity
-public class Note {
+public class ResultNoteDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    private int appointmentId;
     private int doctorId;
     private int userId;
     private String title;
     private String content;
     private Date date;
 
-    public Note() {}
+    public ResultNoteDto() {}
 
-    public Note(
+    public ResultNoteDto(
             int id,
+            int appointmentId,
             int doctorId,
             int userId,
             String title,
@@ -33,6 +27,7 @@ public class Note {
             Date date
     ) {
         this.id = id;
+        this.appointmentId = appointmentId;
         this.doctorId = doctorId;
         this.userId = userId;
         this.title = title;

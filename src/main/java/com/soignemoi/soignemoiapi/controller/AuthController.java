@@ -1,10 +1,13 @@
 package com.soignemoi.soignemoiapi.controller;
 
+import com.soignemoi.soignemoiapi.data.UserEntity;
 import com.soignemoi.soignemoiapi.data.dto.auth.AuthResponseDto;
 import com.soignemoi.soignemoiapi.data.dto.auth.LoginDto;
 import com.soignemoi.soignemoiapi.data.dto.auth.RegisterDto;
-import com.soignemoi.soignemoiapi.data.model.Visitor;
+import com.soignemoi.soignemoiapi.data.models.Visitor;
 import com.soignemoi.soignemoiapi.security.JwtGenerator;
+import com.soignemoi.soignemoiapi.security.SecurityConstant;
+import com.soignemoi.soignemoiapi.service.user.UserService;
 import com.soignemoi.soignemoiapi.service.VisitorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +34,8 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
+    private UserService userService;
+    @Autowired
     private JwtGenerator jwtGenerator;
 
     @PostMapping("/login")
@@ -39,7 +44,8 @@ public class AuthController {
                 .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getMail(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
+        UserEntity user = userService.findByIdentifier(loginDto.getMail());
+        return new ResponseEntity<>(new AuthResponseDto(token, user.getRole().getRoleName(), SecurityConstant.JWT_EXPIRATION), HttpStatus.OK);
     }
 
     @PostMapping("/register")

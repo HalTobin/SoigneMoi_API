@@ -1,6 +1,5 @@
 package com.soignemoi.soignemoiapi.data.dto;
 
-import com.soignemoi.soignemoiapi.data.model.Visitor;
 import lombok.Data;
 
 @Data

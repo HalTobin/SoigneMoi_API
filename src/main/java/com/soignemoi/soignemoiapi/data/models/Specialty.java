@@ -1,4 +1,4 @@
-package com.soignemoi.soignemoiapi.data.model;
+package com.soignemoi.soignemoiapi.data.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Medicine {
+public class Specialty {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,13 +16,13 @@ public class Medicine {
 
     private String title;
 
-    public Medicine() {}
+    public Specialty() {}
 
-    public Medicine(
-            int id,
-            String title
-    ) {
+    public Specialty(String title) { this.title = title; }
+
+    public Specialty(int id, String title) {
         this.id = id;
         this.title = title;
     }
+
 }

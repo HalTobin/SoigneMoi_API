@@ -1,4 +1,4 @@
-package com.soignemoi.soignemoiapi.data.model;
+package com.soignemoi.soignemoiapi.data.models;
 
 import com.soignemoi.soignemoiapi.data.UserEntity;
 import jakarta.persistence.*;
@@ -43,5 +43,9 @@ public class Visitor extends UserEntity {
 
     @Override
     public Role getRole() { return Role.VISITOR; }
+    @Override
+    public String getUsername() { return mail; }
+    @Override
+    public String getPassword() { return password; }
 
 }

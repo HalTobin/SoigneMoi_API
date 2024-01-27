@@ -1,8 +1,8 @@
 package com.soignemoi.soignemoiapi.security;
 
-import com.soignemoi.soignemoiapi.data.model.Visitor;
+import com.soignemoi.soignemoiapi.data.UserEntity;
 import com.soignemoi.soignemoiapi.data.values.Role;
-import com.soignemoi.soignemoiapi.repository.VisitorRepository;
+import com.soignemoi.soignemoiapi.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,18 +19,15 @@ import java.util.List;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private VisitorRepository visitorRepository;
+    private UserService userService;
 
-    // Mail is used as username
     @Override
-    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        Visitor visitor = visitorRepository
-                .findByMail(mail)
-                .orElseThrow(() -> new UsernameNotFoundException("Mail not found"));
-        return new User(visitor.getMail(), visitor.getPassword(), mapRoleToAuthorities(visitor.getRole()));
+    public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
+        UserEntity user = userService.findByIdentifier(identifier);
+        return new User(user.getUsername(), user.getPassword(), mapRoleToAuthorities(user.getRole()));
     }
 
-    private Collection<GrantedAuthority> mapRoleToAuthorities(Role role) {
+    public Collection<GrantedAuthority> mapRoleToAuthorities(Role role) {
         return List.of(new SimpleGrantedAuthority(role.getRoleName()));
     }
 }

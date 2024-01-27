@@ -31,7 +31,11 @@ public class SecurityConfig {
                         .authenticationEntryPoint(authEntryPoint))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/home/**").permitAll()
+                        .requestMatchers("/admin/**").hasAuthority("Admin")
+                        .requestMatchers("/doctor/**").hasAuthority("Doctor")
+                        .requestMatchers("/secretary/**").hasAuthority("Secretary")
+                        .requestMatchers("/appointment/**").hasAuthority("Visitor")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
