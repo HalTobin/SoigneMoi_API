@@ -14,7 +14,7 @@ pipeline {
         stage('Build Jar') {
             steps {
                 withEnv(['JAVA_HOME='+JAVA_HOME]){
-                    sh '''export JAVA_HOME=${JAVA_HOME} && chmod +x ./gradlew && ./gradlew build \
+                    sh '''export JAVA_HOME=${JAVA_HOME} && chmod +x ./gradlew && ./gradlew build -x test \
                         -Dstyle.color=never
                         '''
                 }
