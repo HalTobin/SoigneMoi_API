@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     SERVER = "$SERVER";
-					JAVA_HOME = "$JDK";
+					JAVA_HOME = "$JAVA_VER";
                 }
             }
         }
