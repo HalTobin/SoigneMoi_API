@@ -5,8 +5,8 @@ pipeline {
         stage('Build env') {
             steps {
                 script {
-                    SERVER = "${SERVER}";
-					JAVA_HOME = "${JDK}";
+                    SERVER = '${SERVER}';
+					JAVA_HOME = '${JDK}';
                 }
             }
         }
