@@ -33,9 +33,9 @@ pipeline {
             steps {
                 withEnv(['SERVER='+SERVER]){
                     sh '''
-                    ssh -p ${PORT} jenkins@${SERVER} "sudo systemctl stop soignemoi.service;rm /opt/SoigneMoi/soignemoi*.jar"                    
-                    scp -P ${PORT} ${WORKSPACE}/target/soignemoi*.jar jenkins@${SERVER}:/opt/SoigneMoi/  
-                    ssh -p ${PORT} jenkins@${SERVER} "sudo systemctl start soignemoi.service"                
+                    ssh -o StrictHostKeyChecking=no -p ${PORT} jenkins@${SERVER} "sudo systemctl stop soignemoi.service;rm /opt/SoigneMoi/soignemoi*.jar"                    
+                    scp -o StrictHostKeyChecking=no -P ${PORT} ${WORKSPACE}/target/soignemoi*.jar jenkins@${SERVER}:/opt/SoigneMoi/  
+                    ssh -o StrictHostKeyChecking=no -p ${PORT} jenkins@${SERVER} "sudo systemctl start soignemoi.service"               
                     '''
                }
             }
